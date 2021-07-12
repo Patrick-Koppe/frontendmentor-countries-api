@@ -21,5 +21,20 @@ module.exports = {
       },
       __key: "images",
     },
+    {
+      resolve: "gatsby-source-custom-api",
+      options: {
+          url: {
+              development: "https://restcountries.eu/rest/v2/all" // on "gatsby develop"
+          },
+          rootKey: "countries",
+          schema: {
+              countries: `
+                name: String
+                capital: String
+              `
+          }
+      }
+    }
   ],
 };
