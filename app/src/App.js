@@ -1,25 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import axios from 'axios';
+import { Component } from 'react';
+
+const api = axios.create({
+  baseURL: `https://restcountries.eu/rest/v2/all`
+})
+
+class App extends Component {
+
+  state = {
+    countries: [],
+    isLoading: true
+  }
+
+  componentDidMount () {
+    this.getCountries();
+  }
+
+  getCountries = async () => {
+      let data = await api.get('/').then(({data}) => data).catch(err=> console.log(err));
+      this.setState({ countries: data })
+      this.setState({ isLoading: false })
+    
+  }
+
+  render() {
+    return (
+      <div className="App">
+      {this.state.isLoading ? <p>loading</p> : this.state.countries.map(country => <h2 key={country.alpha2Code}>{country.name}</h2>)}
+      </div>
+    );
+  }
+  
 }
 
 export default App;
