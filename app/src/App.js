@@ -1,8 +1,16 @@
 import './App.css';
 
 import axios from 'axios';
+import history from './history';
+
 import { Component } from 'react';
-import CountryBox from './components/countrybox.js'
+import CountryBox from './components/countrybox.js';
+
+import Routes from './routes';
+
+
+
+
 const api = axios.create({
   baseURL: `https://restcountries.eu/rest/v2/all`
 })
@@ -12,12 +20,28 @@ class App extends Component {
 
   state = {
     countries: [],
+    clickedCountry: [],
     isLoading: true,
     searchtext: '',
     regiontext: '',
-    invalid: false
+    invalid: false,
+    selectCountry: '',
   }
 
+  clickedCountry = (countryName) => {
+    this.setState({
+      selectCountry: countryName
+    },
+     this.startsearch
+    )
+
+  }
+
+
+  startsearch = () => {
+    this.searchForClickedCountry(this.state.selectCountry)
+    history.push(`detailPage?name=${this.state.selectCountry}`)
+  }
   componentDidMount () {
     this.getCountries();
     this.setState({ isLoading: false })
@@ -28,6 +52,18 @@ class App extends Component {
       this.setState({ countries: data, isLoading: false })
     
   }
+
+  searchForClickedCountry = async searchtext => {
+    this.setState({ loading: true });
+    try {
+      const res = await axios(`https://restcountries.eu/rest/v2/name/${searchtext}`);
+      const countries = await res.data;
+      this.setState({ clickedCountry: countries, isLoading: false});
+
+    } catch(err) {
+      this.setState({invalid: true, isLoading: false})
+    }
+  };
 
   searchCountries = async searchtext => {
     this.setState({ loading: true });
@@ -81,10 +117,14 @@ class App extends Component {
 
   }
 
+
   render() {
     return (
       <div className="App">
+           <Routes detailCountry={this.state.clickedCountry}/>
+        
         <input type="text" onChange={ this.handleChange } className={this.state.invalid ? 'error' : ''}/>
+
         <select onChange={ this.handleSelect }>
           <option value="default">Filter by Resgion</option>
           <option>Africa</option>
@@ -93,8 +133,8 @@ class App extends Component {
           <option>Europe</option>
           <option>Oceania</option>
         </select>
-        <CountryBox countries={this.state.countries}/>
-     {this.state.isLoading ? <p>loading</p> : <p></p>}
+        <CountryBox countries={this.state.countries} clickedCountry={this.clickedCountry} />
+    {this.state.isLoading ? <p>loading</p> : <p></p>}
       </div>
     );
   }
