@@ -12,7 +12,7 @@ import Routes from './routes';
 
 
 const api = axios.create({
-  baseURL: `https://restcountries.eu/rest/v2/all`
+  baseURL: `https://restcountries.com/v2/all`
 })
 
 
@@ -56,7 +56,7 @@ class App extends Component {
   searchForClickedCountry = async searchtext => {
     this.setState({ loading: true });
     try {
-      const res = await axios(`https://restcountries.eu/rest/v2/name/${searchtext}`);
+      const res = await axios(`https://restcountries.com/v2/name/${searchtext}`);
       const countries = await res.data;
       this.setState({ clickedCountry: countries, isLoading: false});
 
@@ -68,7 +68,7 @@ class App extends Component {
   searchCountries = async searchtext => {
     this.setState({ loading: true });
     try {
-      const res = await axios(`https://restcountries.eu/rest/v2/name/${searchtext}`);
+      const res = await axios(`https://restcountries.com/v2/name/${searchtext}`);
       const countries = await res.data;
       this.setState({ countries: countries, isLoading: false, invalid: false });
 
@@ -80,7 +80,7 @@ class App extends Component {
   searchRegionCountries = async region => {
     this.setState({ loading: true });
     try {
-      const res = await axios(`https://restcountries.eu/rest/v2/region/${region}`);
+      const res = await axios(`https://restcountries.com/v2/region/${region}`);
       const countries = await res.data;
       this.setState({ countries: countries, isLoading: false });
 
