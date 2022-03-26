@@ -1,0 +1,11 @@
+@import '../../styles/colors';
+
+.card {
+    background: $darkBlue;
+    height: 100%;
+
+    img {
+        height: 166px;
+        object-fit: cover;
+    }
+}
