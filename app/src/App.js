@@ -1,18 +1,19 @@
-import './App.css';
+import './App.scss';
 
 import axios from 'axios';
 import history from './history';
 
 import { Component } from 'react';
-import CountryBox from './components/countrybox.js';
+import CountryBox from './components/countrylist/countrybox.js';
 
 import Routes from './routes';
+import Header from "./components/header/header";
 
 
 
 
 const api = axios.create({
-  baseURL: `https://restcountries.com/v2/all`
+  baseURL: `https://restcountries.com/v3.1/all`
 })
 
 
@@ -56,7 +57,7 @@ class App extends Component {
   searchForClickedCountry = async searchtext => {
     this.setState({ loading: true });
     try {
-      const res = await axios(`https://restcountries.com/v2/name/${searchtext}`);
+      const res = await axios(`https://restcountries.com/v3.1/name/${searchtext}`);
       const countries = await res.data;
       this.setState({ clickedCountry: countries, isLoading: false});
 
@@ -68,7 +69,7 @@ class App extends Component {
   searchCountries = async searchtext => {
     this.setState({ loading: true });
     try {
-      const res = await axios(`https://restcountries.com/v2/name/${searchtext}`);
+      const res = await axios(`https://restcountries.com/v3.1/name/${searchtext}`);
       const countries = await res.data;
       this.setState({ countries: countries, isLoading: false, invalid: false });
 
@@ -80,7 +81,7 @@ class App extends Component {
   searchRegionCountries = async region => {
     this.setState({ loading: true });
     try {
-      const res = await axios(`https://restcountries.com/v2/region/${region}`);
+      const res = await axios(`https://restcountries.com/v3.1/region/${region}`);
       const countries = await res.data;
       this.setState({ countries: countries, isLoading: false });
 
@@ -121,6 +122,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Header />
+
            <Routes detailCountry={this.state.clickedCountry}/>
         
         <input type="text" onChange={ this.handleChange } className={this.state.invalid ? 'error' : ''}/>
@@ -133,8 +136,10 @@ class App extends Component {
           <option>Europe</option>
           <option>Oceania</option>
         </select>
-        <CountryBox countries={this.state.countries} clickedCountry={this.clickedCountry} />
-    {this.state.isLoading ? <p>loading</p> : <p></p>}
+        <div className="container">
+          <CountryBox countries={this.state.countries} clickedCountry={this.clickedCountry} />
+          {this.state.isLoading ? <p>loading</p> : <p></p>}
+        </div>
       </div>
     );
   }
