@@ -1,0 +1,12 @@
+@import '../styles/colors';
+
+.lightbox {
+    &.fixed {
+        position: fixed;
+    }
+
+    background: $darkBlue;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+}
