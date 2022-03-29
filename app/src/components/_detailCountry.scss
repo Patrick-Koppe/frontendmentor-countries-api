@@ -2,10 +2,12 @@
 
 .lightbox {
     &.fixed {
+        margin-top: 75px;
         position: fixed;
+        top: 0;
     }
 
-    background: $darkBlue;
+    background: $veryDarkBlue;
     height: 100%;
     width: 100%;
     z-index: 2;
