@@ -5,6 +5,8 @@
 @import 'node_modules/bootstrap/scss/buttons';
 @import 'node_modules/bootstrap/scss/utilities';
 @import 'node_modules/bootstrap/scss/utilities/api';
+@import 'node_modules/bootstrap/scss/forms/form-control';
+@import 'node_modules/bootstrap/scss/forms/form-select';
 
 // customize imports
 
@@ -26,5 +28,9 @@
 }
 
 .App {
-  margin-top: 50px;
+  margin-top: 130px;
+
+  &.loading {
+
+  }
 }

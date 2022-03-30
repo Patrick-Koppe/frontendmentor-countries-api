@@ -8,25 +8,17 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 function DetailCountry(props) {
 
     function numberWithCommas(x) {
-
-        console.log('props')
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
     function languages(obj) {
-
-        console.log('Array', Object.values(obj));
-
             return `${Object.values(obj)}`
     }
 
     function currencies(obj) {
-
         let currency = "";
-        console.log('Array', Object.values(obj));
 
         Object.values(obj).forEach(function(item) {
-            console.log('item', item.name);
             currency += `${item.name} (${item.symbol})`
         });
 
@@ -37,8 +29,8 @@ function DetailCountry(props) {
         return (
             <div className="lightbox fixed">
                 <div className="container">
-                    <div className="row">
-                        <div className="col-12 my-5 py-2">
+                    <div className="row my-5 py-2">
+                        <div className="col-12">
                             <button className="btn btn-secondary icon left" onClick={() => history.push('/')}>
                                 <FontAwesomeIcon icon={faArrowLeft} />Back</button>
                         </div>
@@ -119,7 +111,7 @@ function DetailCountry(props) {
         );
     } else {
         return (
-            <span hidden="hidde"></span>
+            <span hidden="hidden"></span>
         )
     }
 }

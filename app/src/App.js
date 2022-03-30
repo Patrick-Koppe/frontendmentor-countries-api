@@ -8,6 +8,8 @@ import CountryBox from './components/countrylist/countrybox.js';
 
 import Routes from './routes';
 import Header from "./components/header/header";
+import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
 
@@ -27,6 +29,7 @@ class App extends Component {
     regiontext: '',
     invalid: false,
     selectCountry: '',
+    lightmode: false,
   }
 
   clickedCountry = (countryName) => {
@@ -118,27 +121,44 @@ class App extends Component {
 
   }
 
+  handleClick = () => {
+    this.setState({lightmode: !this.state.lightmode})
+  }
+
 
   render() {
     return (
-      <div className="App">
-        <Header />
+      <div className={`App ${this.state.isLoading ? 'loading' : ''}${this.state.lightmode}`}>
+        <Header onClick={this.handleClick} lightmode={this.state.lightmode}/>
 
            <Routes detailCountry={this.state.clickedCountry}/>
-        
-        <input type="text" onChange={ this.handleChange } className={this.state.invalid ? 'error' : ''}/>
 
-        <select onChange={ this.handleSelect }>
-          <option value="default">Filter by Resgion</option>
-          <option>Africa</option>
-          <option>Americas</option>
-          <option>Asia</option>
-          <option>Europe</option>
-          <option>Oceania</option>
-        </select>
+        <div className="container">
+          <form>
+            <div className="row justify-content-between my-5 py-2">
+              <div className="col-12 col-md-4">
+                <div className="form-group">
+                  <FontAwesomeIcon icon={faMagnifyingGlass} />
+                  <input className="form-control" type="text" placeholder="Search for a country..." onChange={ this.handleChange } />
+                </div>
+              </div>
+              <div className="col-12 col-md-3">
+                <div className="form-group">
+                  <select className="form-select form-select-lg" onChange={ this.handleSelect }>
+                    <option value="default">Filter by Region</option>
+                    <option>Africa</option>
+                    <option>Americas</option>
+                    <option>Asia</option>
+                    <option>Europe</option>
+                    <option>Oceania</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
         <div className="container">
           <CountryBox countries={this.state.countries} clickedCountry={this.clickedCountry} />
-          {this.state.isLoading ? <p>loading</p> : <p></p>}
         </div>
       </div>
     );
